@@ -3,6 +3,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
+import { shadesOfPurple } from "@clerk/themes";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,7 +16,9 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{ baseTheme: shadesOfPurple,}}
+    >
       <html lang="en" suppressHydrationWarning>
         <body className={`${inter.className}`}>
           <ThemeProvider
