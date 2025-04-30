@@ -1,11 +1,24 @@
-import React from 'react'
+import React from "react";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 
 const Header = () => {
   return (
     <div>
-      <h1>Header</h1>
+      <SignedOut>
+        <SignInButton />
+        <SignUpButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
