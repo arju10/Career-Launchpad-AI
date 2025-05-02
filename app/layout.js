@@ -28,7 +28,8 @@ export default function RootLayout({ children }) {
             disableTransitionOnChange
           >
             {/* header */}
-            <Header />
+            
+            <Header/>
             <main className="min-h-screen">{children}</main>
             {/* footer */}
             <footer className="bg-muted/50 py-12">
