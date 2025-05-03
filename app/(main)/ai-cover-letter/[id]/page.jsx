@@ -1,7 +1,7 @@
 import React from 'react'
 
-const CoverLetter = async({params}) => {
-    const  {id} = await params;
+export default CoverLetter = async({params}) => {
+    const  id= await params.id;
   return (
     <div className='pt-20'>
       <h1>Single Cover Letter Page  {id}</h1>
@@ -9,4 +9,4 @@ const CoverLetter = async({params}) => {
   )
 }
 
-export default CoverLetter
+
