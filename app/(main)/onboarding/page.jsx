@@ -1,10 +1,12 @@
 import React from 'react'
+import OnboardingForm from './_components/onboarding-form'
+import { industries } from '@/app/data/industries'
 
 const OnboardingPage = () => {
   return (
-    <div>
-      <h1>On boarding Page</h1>
-    </div>
+    <main >
+      <OnboardingForm industries = {industries}/>
+    </main>
   )
 }
 

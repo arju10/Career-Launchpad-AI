@@ -30,7 +30,7 @@ export default function RootLayout({ children }) {
             {/* header */}
             
             <Header/>
-            <main className="min-h-screen">{children}</main>
+            <main className="min-h-screen pt-17">{children}</main>
             {/* footer */}
             <footer className="bg-muted/50 py-12">
               <div className="container max-auto px-4 text-center">
