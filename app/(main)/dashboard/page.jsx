@@ -1,9 +1,17 @@
+import { getUserOnboardingStatus } from '@/actions/user';
+import { redirect } from 'next/navigation';
 import React from 'react'
 
-const IndustryInsightsPage = () => {
+const IndustryInsightsPage = async() => {
+  const {onboarded} = await getUserOnboardingStatus();
+
+  if (!onboarded) {
+    redirect("/onboarding");
+  }
+
   return (
-    <div className='pt-20'>
-      <h1>Industry Insight Page</h1>
+    <div>
+      <h1>Industry Insight page</h1>    
     </div>
   )
 }
