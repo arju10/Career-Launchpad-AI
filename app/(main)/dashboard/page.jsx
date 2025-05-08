@@ -3,17 +3,18 @@ import { redirect } from 'next/navigation';
 import React from 'react'
 
 const IndustryInsightsPage = async() => {
-  const {onboarded} = await getUserOnboardingStatus();
+  const {isOnboarded} = await getUserOnboardingStatus();
 
-  if (!onboarded) {
+  if (!isOnboarded) {
     redirect("/onboarding");
   }
 
   return (
-    <div>
+    <div className='pt-40'>
       <h1>Industry Insight page</h1>    
     </div>
   )
 }
 
 export default IndustryInsightsPage
+
