@@ -41,11 +41,11 @@ export async function updateUser(data) {
           industryInsight = await db.industryInsight.create({
             data: {
                 industry: data.industry,
-                salaryRange: [], // Default empty value 
+                salaryRanges: [], // Default empty value 
                 growthRate: 0, // Default value
-                demandLevel: "Medium", // Default value
+                demandLevel: "MEDIUM", // Default value
                 topSkills: [], // Default empty value
-                marketOutlook: "Neutral", // Default value
+                marketOutlook: "NEUTRAL", // Default value
                 keyTrends: [], // Default empty value
                 recommendedSkills: [], // Default empty value
                 nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), //One week from now
@@ -74,10 +74,10 @@ export async function updateUser(data) {
     );
 
     revalidatePath("/");
-    return result.user;
+    return {success:true, ...result};
   } catch (error) {
     console.error("Error updating user and industry:", error.message);
-    throw new Error("Failed to update profile");
+    throw new Error("Failed to update profile" + error.message);
   }
 }
 
