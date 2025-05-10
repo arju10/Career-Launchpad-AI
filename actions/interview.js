@@ -128,6 +128,7 @@ export async function saveQuizResult(questions, answers, score) {
   }
 }
 
+// Fetch all assessments for the user currently logged in
 export async function getAssessments() {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
