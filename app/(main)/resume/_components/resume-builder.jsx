@@ -24,6 +24,7 @@ import { useUser } from "@clerk/nextjs";
 import { entriesToMarkdown } from "@/app/lib/helper";
 import { resumeSchema } from "@/app/lib/schema";
 
+
 export default function ResumeBuilder({ initialContent }) {
   const [activeTab, setActiveTab] = useState("edit");
   const [previewContent, setPreviewContent] = useState(initialContent);
@@ -109,6 +110,67 @@ export default function ResumeBuilder({ initialContent }) {
       .join("\n\n");
   };
 
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const generatePDF = async () => {
+    setIsGenerating(true);
+
+    try {
+      const { default: html2pdf } = await import("html2pdf.js");
+
+      const sourceElement = document.getElementById("resume-pdf");
+      if (!sourceElement) {
+        toast.error("Resume element not found!");
+        setIsGenerating(false);
+        return;
+      }
+
+      // Clone the content for PDF export
+      const pdfContent = sourceElement.cloneNode(true);
+
+      // Apply fallback styles without modifying original
+      const style = document.createElement("style");
+      style.textContent = `
+        * {
+          background-color: white !important;
+          color: black !important;
+          border-color: #ccc !important;
+          box-shadow: none !important;
+        }
+        a {
+          color: blue !important;
+          text-decoration: underline !important;
+        }
+      `;
+
+      const wrapper = document.createElement("div");
+      wrapper.style.padding = "20px";
+      wrapper.appendChild(style);
+      wrapper.appendChild(pdfContent);
+
+      // Inject into DOM temporarily
+      document.body.appendChild(wrapper);
+
+      const opt = {
+        margin: [15, 15],
+        filename: "resume.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      };
+
+      await html2pdf().set(opt).from(wrapper).save();
+
+      // Clean up
+      document.body.removeChild(wrapper);
+    } catch (error) {
+      console.error("PDF generation error:", error);
+      toast.error("Failed to generate PDF");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   const onSubmit = async (data) => {
     try {
       const formattedContent = previewContent
@@ -147,16 +209,18 @@ export default function ResumeBuilder({ initialContent }) {
               </>
             )}
           </Button>
-          <Button>
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" />
-              Generating PDF...
-            </>
-
-            <>
-              <Download className="h-4 w-4" />
-              Download PDF
-            </>
+          <Button onClick={generatePDF} disabled={isGenerating}>
+            {isGenerating ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Generating PDF...
+              </>
+            ) : (
+              <>
+                <Download className="h-4 w-4" />
+                Download PDF
+              </>
+            )}
           </Button>
         </div>
       </div>
