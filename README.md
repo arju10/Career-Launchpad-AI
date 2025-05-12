@@ -108,37 +108,46 @@ Make sure to add your environment variables in Vercel’s dashboard under Projec
 ### 🏠 Landing Page
 ![Landing Page Screenshot](./screenshots/First_LandingPage.png)
 
+--- 
+
 ### 🔐 Signup & Signin
+
 ![Signup Screenshot](./screenshots/sign_up.png) 
 ![Signin Screenshot](./screenshots/sign_in.png) </br>
+
+---
 
 ### 👤 User Profile
 ![New User Profile Screenshot](./screenshots/new_user_after_signin.png) 
 
-### 📊 Dashboard
-![AI Insights Screenshot](./screenshots)
 
+---
 ### 🧠 Industry Insights (Powered by Google Gemini AI)
 Industry insights powered by Google Gemini AI.
 ![AI Insights Screenshot](./screenshots/industry_insight.png)
 
+---
 ### 📄 Resume Builder
 Build and download your professional resume in seconds.
 ![Resume Builder Screenshot](./screenshots/resume_builder.png) </br>
-
 ![Download Resume Screenshot](./screenshots/download_resume.png) </br>
 
+
+---
 ### ✉️ Cover Letter Generator
 Build and download your professional cover letter in seconds.
 ![Generate Cover Letter Screenshot](./screenshots/cover_letter_form.png) </br>
 
 ![List of Cover Letters Screenshot](./screenshots/cover_letter_lists.png) </br>
 
+---
+
 ### 🎤 Interview Preparation
 ![Mock Interview Screenshot](./screenshots/mock_interview.png) </br>
 
 ![After taking exam Screenshot](./screenshots/interview_preparation_after_taking_exam.png) </br>
 
+---
 
 ## 🙋‍♂️ Contact
 
