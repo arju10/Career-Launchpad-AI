@@ -7,7 +7,7 @@ import { generateAIInsights } from "./dashboard";
 
 export async function updateUser(data) {
   const { userId } = await auth();
-  if (!userId) throw new Error("Unauthorized");
+  if (!userId) throw new Error("User is not authenticated");
 
   const user = await db.user.findUnique({
     where: { clerkUserId: userId },
@@ -19,7 +19,7 @@ export async function updateUser(data) {
     // Start a transaction to handle both operations
     const result = await db.$transaction(
       async (tx) => {
-        // First check if industry exists
+        // First, check if industry exists
         let industryInsight = await tx.industryInsight.findUnique({
           where: {
             industry: data.industry,
@@ -30,16 +30,16 @@ export async function updateUser(data) {
         if (!industryInsight) {
           const insights = await generateAIInsights(data.industry);
 
-          industryInsight = await db.industryInsight.create({
+          industryInsight = await tx.industryInsight.create({
             data: {
               industry: data.industry,
               ...insights,
-              nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+              nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
             },
           });
         }
 
-        // Now update the user
+        // Now update the user with the new profile data
         const updatedUser = await tx.user.update({
           where: {
             id: user.id,
@@ -55,29 +55,27 @@ export async function updateUser(data) {
         return { updatedUser, industryInsight };
       },
       {
-        timeout: 10000, // default: 5000
+        timeout: 10000, // Ensure enough time for the transaction
       }
     );
 
+    // Revalidate the homepage to reflect changes
     revalidatePath("/");
-    return result.user;
+    return result.updatedUser;
   } catch (error) {
     console.error("Error updating user and industry:", error.message);
-    throw new Error("Failed to update profile");
+    throw new Error("Failed to update profile due to internal error");
   }
 }
 
+
+
 export async function getUserOnboardingStatus() {
   const { userId } = await auth();
-  if (!userId) throw new Error("Unauthorized");
-
-  const user = await db.user.findUnique({
-    where: { clerkUserId: userId },
-  });
-
-  if (!user) throw new Error("User not found");
+  if (!userId) throw new Error("User is not authenticated");
 
   try {
+    // Fetch the user's onboarding status by checking if the industry exists
     const user = await db.user.findUnique({
       where: {
         clerkUserId: userId,
@@ -87,11 +85,14 @@ export async function getUserOnboardingStatus() {
       },
     });
 
+    if (!user) throw new Error("User not found");
+
     return {
-      isOnboarded: !!user?.industry,
+      isOnboarded: !!user?.industry, // If the industry exists, the user is onboarded
     };
   } catch (error) {
-    console.error("Error checking onboarding status:", error);
-    throw new Error("Failed to check onboarding status");
+    console.error("Error checking onboarding status:", error.message);
+    throw new Error("Failed to check onboarding status due to internal error");
   }
 }
+
