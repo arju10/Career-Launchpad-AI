@@ -7,7 +7,7 @@
 
 ## 🧠 AI Career Assistant Platform
 
-An AI-powered career assistant web application built using **Next.js 15 App Router**, **ShadCN UI**, **Gemini AI**, **Inngest**, and **PostgreSQL**. This platform helps users get **industry insights**, **prepare for interviews**, **build resumes**, and **generate cover letters** — all powered by AI.
+An AI-powered career assistant web application built using **Next.js 15 App Router**, **ShadCN UI**, **Gemini AI**, **Inngest**, and **Prisma**. This platform helps users get **industry insights**, **prepare for interviews**, **build resumes**, and **generate cover letters** — all powered by AI.
 
 ---
 
